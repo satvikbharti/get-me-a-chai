@@ -12,6 +12,10 @@ const Dashboard = () => {
     const router = useRouter()
     const [form, setform] = useState({})
 
+    const getData = async () => {
+        let u = await fetchuser(session.user.name)
+        setform(u)
+    }
     useEffect(() => {
         console.log(session)
 
@@ -21,17 +25,14 @@ const Dashboard = () => {
         else {
             getData()
         }
-    }, [])
+    }, [session])
 
-    const getData = async () => {
-        let u = await fetchuser(session.user.name)
-        setform(u)
-    }
 
-   const handleSave = async () => {
-    await saveDataToDB(); 
-    router.refresh();
-  };
+
+    const handleSave = async () => {
+        await saveDataToDB();
+        router.refresh();
+    };
 
     const handleChange = (e) => {
         setform({ ...form, [e.target.name]: e.target.value })
