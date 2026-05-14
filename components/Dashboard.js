@@ -12,20 +12,23 @@ const Dashboard = () => {
     const router = useRouter()
     const [form, setform] = useState({})
 
-    const getData = async () => {
+   useEffect(() => {
+
+    if (!session) {
+        router.push('/login')
+        return
+    }
+
+    const loadData = async () => {
+        if (!session?.user?.name) return
+
         let u = await fetchuser(session.user.name)
         setform(u)
     }
-    useEffect(() => {
-        console.log(session)
 
-        if (!session) {
-            router.push('/login')
-        }
-        else {
-            getData()
-        }
-    }, [session])
+    loadData()
+
+}, [session, router])
 
 
 
